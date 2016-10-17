@@ -1,0 +1,24 @@
+{
+  "name": "bts",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "debug": "node --inspect --debug-brk ./bin/www",
+    "debug2": "node --inspect ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "hbs": "~4.0.0",
+    "moment": "^2.15.1",
+    "morgan": "~1.7.0",
+    "nconf": "^0.8.4",
+    "request": "^2.75.0",
+    "rpio": "^0.9.12",
+    "serve-favicon": "~2.3.0",
+    "ws": "^1.1.1"
+  }
+}

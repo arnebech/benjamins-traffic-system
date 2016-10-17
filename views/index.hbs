@@ -1,0 +1,200 @@
+<ul class="c-nav c-nav--inline">
+  <li class="c-nav__content c-text--loud">Benjamin's Traffic Control X2000</li>
+  <li class="c-nav__item c-nav__item--right">
+    <span data-bind="text: currentTime"></span>
+  </li>
+</ul>
+
+<div class="o-grid main-container">
+  <div class="o-grid__cell o-grid__cell--width-fixed light-column">
+    <div>
+      <img data-bind="attr:{src:getTrafficImgSrc()}">
+    </div>
+  </div>
+  <div class="o-grid__cell">
+
+    <div>
+      <h3> Actions </h3>
+      <p class="p-paragraph">
+        <button type="button" data-bind="click: startNap" class="c-button c-button--info"> 
+          Start Nap 
+        </button> 
+        (turn green after {{napDuration}})
+      </p>
+
+      <p class="p-paragraph">
+
+        <ul class="c-tree">
+          <!-- ko if: !showMoreActions() -->
+          <li class="c-tree__item c-tree__item--expandable">
+            <span class="c-link" data-bind="click: function(){showMoreActions(true)}">Custom Schedule</span>
+          </li>
+          <!-- /ko -->
+          <!-- ko if: showMoreActions() -->
+          <li class="c-tree__item c-tree__item--expanded">
+            <span class="c-link" data-bind="click: function(){showMoreActions(false)}">Custom Schedule</span>
+
+            <hr>
+
+            <div class="custom-schedule-container"> 
+
+              <label class="c-label o-form-element">
+                Start in:
+                <select data-bind="options: lightDurations,
+                               optionsText: 'name',
+                               value: selectedLightDelay"
+                        class="c-field c-field--label">
+                </select>
+              </label>
+
+              <label class="c-label o-form-element">
+                Duration:
+                <select data-bind="options: lightDurations,
+                               optionsText: 'name',
+                               value: selectedLightDuration"
+                        class="c-field c-field--label">
+                </select>
+              </label>
+
+              <label class="c-label o-form-element">
+                Color:
+                <select data-bind="options: lightColors,
+                               optionsText: 'name',
+                               value: selectedLightColor"
+                        class="c-field c-field--label">
+                </select>
+              </label>
+
+              <label class="c-label o-form-element">
+                Turned on:
+                <select data-bind="options: lightStates,
+                               optionsText: 'name',
+                               value: selectedLightState"
+                        class="c-field c-field--label">
+                </select>
+              </label>
+
+              <button type="button" class="c-button c-button--info"
+               data-bind="click: startCustomSchedule"> Start </button>
+            </div>
+
+            <hr>
+
+          </li>
+          <!-- /ko -->
+        </ul>
+
+      </p>
+    </div>
+
+   
+    <div>
+      <h3> Schedule </h3>
+
+      <!-- ko foreach: groupedSchedule -->
+
+        <h4 data-bind="text: $data.title"></h4>
+
+        <div class="schedule-row"> 
+
+          <div class="schedule-row-time"></div>
+          <div class="schedule-row-bar schedule-row-bar-top" data-bind="css: {'schedule-row-bar-top-today': $data.today}"></div>
+          <div class="schedule-row-desc"></div>
+
+        </div>
+
+
+        <!-- ko foreach: $data.segments --> 
+
+          <!-- ko if: $data.type === 'spacerSegment' -->
+          <div class="schedule-row schedule-row-spacer"> 
+
+            <div class="schedule-row-time"></div>
+            <div class="schedule-row-bar"></div>
+            <div class="schedule-row-desc"></div>
+
+          </div>
+          <!-- /ko -->
+
+          <!-- ko if: $data.type !== 'spacerSegment' -->
+          <div class="schedule-row"> 
+
+            <div class="schedule-row-time">
+              <span data-bind="text: $data.getClockTime()"></span>
+              -
+            </div>
+            <div class="schedule-row-bar">
+              <div class="schedule-row-light"
+              data-bind="css: {
+                'schedule-row-light-red': $data.getLight() === 'red',
+                'schedule-row-light-yellow': $data.getLight() === 'yellow',
+                'schedule-row-light-green': $data.getLight() === 'green'
+              }"></div>
+            </div>
+            <div class="schedule-row-desc">
+              <span data-bind="text: $data.getDescription()"></span>
+              <!-- ko if: isCancelable() -->
+              - <a class="c-link" data-bind="click: $parents[1].cancelSchedule.bind($parent)"> Cancel  </a>
+              <!-- /ko -->
+            </div>
+
+          </div>
+          <!-- /ko -->
+
+        <!-- /ko -->
+
+
+        <div class="schedule-row"> 
+
+          <div class="schedule-row-time"></div>
+          <div class="schedule-row-bar schedule-row-bar-bottom"></div>
+          <div class="schedule-row-desc"></div>
+
+        </div>
+
+      <!-- /ko -->
+
+    </div>
+
+
+     <div>
+      <h3> Button Activity </h3>
+
+      <!-- ko if: !$data.buttonActivity().length -->
+        <div class="button-chart-none"> No recent activity </div>
+      <!-- /ko -->
+
+      <div class="button-chart" data-bind="visible: buttonActivity().length"> 
+
+
+
+        <!-- ko foreach: $data.buttonActivity -->
+
+          <!-- ko if: $data.type === 'divider' -->
+            <div class="button-chart-bar-divider">
+              <div class="button-chart-bar-divider-marker"> </div>
+              <div class="button-chart-bar-divider-label">
+                <span data-bind="text: $data.label"></span>
+              </div>
+            </div>
+          <!-- /ko -->
+
+          <!-- ko if: $data.type !== 'divider' -->
+            <div class="button-chart-bar" data-bind="style: {height: $data.height}, attr: {title: $data.title}">
+              <div class="button-chart-bar-count" data-bind="text: $data.count, visible: $data.count"> </div> 
+            </div>
+          <!-- /ko -->
+         
+
+        <!-- /ko -->
+
+
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="159px" height="649px" viewBox="0 0 159 649" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>lamp-graphic</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M59.0183292,591 L59,591 L59,645.323944 C59,647.354174 68.4020203,649 80,649 C91.5979797,649 101,647.354174 101,645.323944 L101,591 L100.981671,591 C100.517641,592.958342 91.3013554,594.521059 80,594.521059 C68.6986446,594.521059 59.4823594,592.958342 59.0183292,591 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="42" height="58" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <path d="M0.0693892354,9.37947567 L0,9.37947567 L0,37.3794757 C0,42.3500384 35.5933624,46.3794757 79.5,46.3794757 C123.406638,46.3794757 159,42.3500384 159,37.3794757 L159,9.37947567 L158.930611,9.37947567 C158.976718,9.25363382 159,9.12712471 159,9 C159,4.02943725 123.406638,0 79.5,0 C35.5933624,0 0,4.02943725 0,9 C0,9.12712471 0.0232818692,9.25363382 0.0693892354,9.37947567 Z" id="path-3"></path>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="159" height="46.3794757" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <path d="M0.928023122,170 L0,170 L0,183 C0,187.970563 35.5933624,192 79.5,192 C123.406638,192 159,187.970563 159,183 L159,170 L158.071977,170 C152.208077,174.315718 119.26317,177.620524 79.5,177.620524 C39.7368296,177.620524 6.79192317,174.315718 0.928023122,170 Z" id="path-5"></path>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="159" height="22" fill="white">
+            <use xlink:href="#path-5"></use>
+        </mask>
+        <path d="M0.0693892354,37 L0,37 L0,170 C0,174.970563 35.5933624,179 79.5,179 C123.406638,179 159,174.970563 159,170 L159,37 L158.930611,37 C157.173925,41.7945613 122.283703,45.6205243 79.5,45.6205243 C36.7162973,45.6205243 1.82607503,41.7945613 0.0693892354,37 Z" id="path-7"></path>
+        <mask id="mask-8" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="159" height="142" fill="white">
+            <use xlink:href="#path-7"></use>
+        </mask>
+        <path d="M0.928023122,315 L0,315 L0,328 C0,332.970563 35.5933624,337 79.5,337 C123.406638,337 159,332.970563 159,328 L159,315 L158.071977,315 C152.208077,319.315718 119.26317,322.620524 79.5,322.620524 C39.7368296,322.620524 6.79192317,319.315718 0.928023122,315 Z" id="path-9"></path>
+        <mask id="mask-10" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="159" height="22" fill="white">
+            <use xlink:href="#path-9"></use>
+        </mask>
+        <path d="M0.0693892354,182 L0,182 L0,315 C0,319.970563 35.5933624,324 79.5,324 C123.406638,324 159,319.970563 159,315 L159,182 L158.930611,182 C157.173925,186.794561 122.283703,190.620524 79.5,190.620524 C36.7162973,190.620524 1.82607503,186.794561 0.0693892354,182 Z" id="path-11"></path>
+        <mask id="mask-12" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="159" height="142" fill="white">
+            <use xlink:href="#path-11"></use>
+        </mask>
+        <path d="M0.0693892354,327.620524 L0,327.620524 L0,460.620524 C0,465.591087 35.5933624,469.620524 79.5,469.620524 C123.406638,469.620524 159,465.591087 159,460.620524 L159,327.620524 L158.930611,327.620524 C157.173925,332.415086 122.283703,336.241049 79.5,336.241049 C36.7162973,336.241049 1.82607503,332.415086 0.0693892354,327.620524 Z" id="path-13"></path>
+        <mask id="mask-14" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="159" height="142" fill="white">
+            <use xlink:href="#path-13"></use>
+        </mask>
+        <path d="M0.0693892354,460 L0,460 L0,593 C0,597.970563 35.5933624,602 79.5,602 C123.406638,602 159,597.970563 159,593 L159,460 L158.930611,460 C157.173925,464.794561 122.283703,468.620524 79.5,468.620524 C36.7162973,468.620524 1.82607503,464.794561 0.0693892354,460 Z" id="path-15"></path>
+        <mask id="mask-16" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="159" height="142" fill="white">
+            <use xlink:href="#path-15"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <use id="Segment" stroke="#979797" mask="url(#mask-2)" stroke-width="2" fill="#696868" xlink:href="#path-1"></use>
+        <use id="Segment" stroke="#979797" mask="url(#mask-4)" stroke-width="2" fill="#696868" xlink:href="#path-3"></use>
+        <use id="Segment" stroke="#979797" mask="url(#mask-6)" stroke-width="2" fill="#696868" xlink:href="#path-5"></use>
+        <use id="Segment" stroke="#D7BEBE" mask="url(#mask-8)" stroke-width="2" fill="#FFE2E2" xlink:href="#path-7"></use>
+        <use id="Segment" stroke="#979797" mask="url(#mask-10)" stroke-width="2" fill="#696868" xlink:href="#path-9"></use>
+        <use id="Segment" stroke="#CED0AE" mask="url(#mask-12)" stroke-width="2" fill="#FDFFD8" xlink:href="#path-11"></use>
+        <use id="Segment" stroke="#B8CEB5" mask="url(#mask-14)" stroke-width="2" fill="#E9FFE4" xlink:href="#path-13"></use>
+        <use id="Segment" stroke="#979797" mask="url(#mask-16)" stroke-width="2" fill="#696868" xlink:href="#path-15"></use>
+        <path d="M1,10 C1,14.9705627 36.1456471,19 79.5,19 C122.854353,19 158,14.9705627 158,10" id="Combined-Shape" stroke="#979797"></path>
+    </g>
+</svg>

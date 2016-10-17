@@ -1,0 +1,6 @@
+{
+    "preset": "airbnb",
+    requireSpacesInFunction: false,
+    requireSpacesInAnonymousFunctionExpression: false,
+    requireTrailingComma: false
+}
