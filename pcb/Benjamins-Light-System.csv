@@ -1,0 +1,9 @@
+Reference Designator,Description,Manufacturer,Manufacturer Part Number,Suppliers,Package,Quantity,Is Female,Is Connector,Ipc Land Pattern Name,Polarity,Vds Drain To Source Voltage,Rise Time,Current Rating,Mounting Type,Verified Pad Assignment,Id Continuous Drain Current,Verified Attributes,Power Dissipation,Rds Drain To Source Resistance On,Verified Geometry,Breakdown Voltage Drain To Source,Verified Pin Names,Max Breakdown Voltage Gate To Source,Min Breakdown Voltage Gate To Source,Resistance,Symbol Type,Category Bda670Ac885E6661,Category 0836C53C3D42D3F1,Voltage - Maximum,Pcb Locator,Operating Temperature Range,Gender,Category Dab617Bcef8C0171,Category 75Fab8F04590Ae3D,Category A3C16Ecb93907806,Category E42C2926D3763Feb,Current - Maximum Per Contact
+?12 ?31,2.54mm Pitch terminal block 4 terminals,KAWEEI TECHNOLOGY,KF120-4P,,,2,yes,yes,HDRV4W80P254_1X4_1054X50X860,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+J2,40-Pin GPIO Through Holes for Raspberry Pi,N/A,40-Pin Raspberry Pi B+ GPIO Through Holes,,40-Pin 2.54mm Pitch Through Holes,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Q1 Q2 Q3 Q4 Q5,High Frequency Synchronous Buck  Converter,International Rectifier,IRLB8721PbF,,TO220AB-3,5,,,,N-Channel,30 V,93 ns,44 A,through hole,true,44 A,true,33 W,6.5 mΩ,true,30 V,true,30 V,-20 V,,,,,,,,,,,,,
+R1 R13 R14 R16 R18,Generic Resistor (200),Generic,Resistor (200),,Axial,5,,,,,,,,,,,,,,,,,,,200,Resistor,,,,,,,,,,,
+R12 R15 R17 R19 R3,Generic Resistor (100000),Generic,Resistor (100000),,Axial,5,,,,,,,,,,,,,,,,,,,100000,Resistor,,,,,,,,,,,
+R2,Generic Resistor (130),Generic,Resistor (130),,Axial,1,,,,,,,,,,,,,,,,,,,130,Resistor,,,,,,,,,,,
+U1,Right angle disk drive power header,Molex,15-24-4441,Digi-Key WM6988-ND,9090-4R,1,,,,,,,,,,,,,,,,,,,,,Uncategorized,Connectors,250V AC,Yes,-40°C to +105°C,Female,PC Board,Connectors and Adapters,Uncategorized,Wire to Board,6.5A
+U29,2.54mm pitch terminal block,KAWEEI TECHNOLOGY,KF120-5P,,,1,,,HDRV5W80P254_1X5_1308X50X860,,,,,,,,,,,,,,,,,,,,,,,,,,,,
