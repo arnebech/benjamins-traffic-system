@@ -19,6 +19,19 @@ if (!gpioEnabled) {
         }
       });
 
+      process.stdin.on('data', (chunk) => {
+        var string = chunk.toString();
+
+        if (string.match('toggle')) {
+          debouncer.onChange(true);
+          setTimeout(function() {
+            debouncer.onChange(false);
+          }, 100);
+        }
+
+        console.log(`Received "${chunk.toString()}" on stdin.`);
+      });
+
       // setInterval(function() {
       //   // cb.apply(scope);
       //   debouncer.onChange(true);
