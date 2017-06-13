@@ -7,6 +7,12 @@ var SleepSchedule = function(config) {
   this.greenStart = moment.duration(config.greenStartTime);
   this.greenEnd = moment.duration(config.greenEndTime);
 
+  this.hasYellow = config.hasYellow;
+
+  if (this.hasYellow) {
+    this.yellowStartTime = moment.duration(config.yellowStartTime);
+  }
+
   this.id = 'sleep_' + idCounter++;
 };
 
@@ -28,12 +34,32 @@ SleepSchedule.prototype.getEventsBetween = function(start, end) {
   var day;
   var greenStartTime;
   var greenEndTime;
+  var yellowStartTime;
   for (dayIndex = 0; dayIndex < daysNum; dayIndex++) {
 
     day = startDay.clone().add(dayIndex, 'days');
 
+    if (this.hasYellow) {
+      yellowStartTime = day.clone().add(this.yellowStartTime);
+    }
+
     greenStartTime = day.clone().add(this.greenStart);
     greenEndTime = day.clone().add(this.greenEnd);
+
+    if (yellowStartTime.isBefore(end) && greenStartTime.isAfter(start)) {
+      events.push({
+        start: yellowStartTime,
+        end: greenStartTime,
+        priority: 0,
+        type: 'sleep',
+        owner: this.id,
+        state: {
+          light: 'yellow',
+          turnedOn: false
+        }
+      });
+    }
+
 
     if (greenStartTime.isBefore(end) && greenEndTime.isAfter(start)) {
       events.push({

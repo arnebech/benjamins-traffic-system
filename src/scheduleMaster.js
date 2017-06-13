@@ -9,6 +9,8 @@ const Scheduler = require('./StateScheduler');
 var sleepSchedule = new SleepSchedule({
   greenStartTime: conf.get('sleep:greenStartTime'),
   greenEndTime: conf.get('sleep:greenEndTime'),
+  hasYellow: conf.get('sleep:enableYellow'),
+  yellowStartTime: conf.get('sleep:yellowStartTime')
 });
 
 const scheduler = new Scheduler();
