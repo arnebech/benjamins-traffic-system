@@ -1,4 +1,4 @@
-const EventEmitter = require('events').EventEmitter;
+const { EventEmitter } = require('events');
 const util = require('util');
 
 /*
@@ -17,8 +17,7 @@ const STATE_ON = 3;
 const BTN_STATE_ON = true;
 const BTN_STATE_OFF = false;
 
-const ButtonDebouncer = function() {
-
+const ButtonDebouncer = function () {
   this.state = false;
   this.internalState = STATE_OFF;
 
@@ -28,12 +27,11 @@ const ButtonDebouncer = function() {
   this.debounceOffDelay = 25;
 
   this.offTimer = false;
-
 };
 
 util.inherits(ButtonDebouncer, EventEmitter);
 
-ButtonDebouncer.prototype.setState = function(state) {
+ButtonDebouncer.prototype.setState = function (state) {
   if (this.state === state) {
     return;
   }
@@ -42,7 +40,7 @@ ButtonDebouncer.prototype.setState = function(state) {
   this.state = state;
 };
 
-ButtonDebouncer.prototype.setInternalState = function(internalState) {
+ButtonDebouncer.prototype.setInternalState = function (internalState) {
   if (this.internalState === internalState) {
     return;
   }
@@ -54,18 +52,16 @@ ButtonDebouncer.prototype.setInternalState = function(internalState) {
   } else if (this.internalState === STATE_ON) {
     this.setState(true);
   }
-
 };
 
-ButtonDebouncer.prototype.clearOffTimer = function() {
+ButtonDebouncer.prototype.clearOffTimer = function () {
   if (this.offTimer !== false) {
     clearTimeout(this.offTimer);
     this.offTimer = false;
   }
 };
 
-ButtonDebouncer.prototype.onChange = function(buttonState) {
-
+ButtonDebouncer.prototype.onChange = function (buttonState) {
   if (buttonState === this.lastButtonState) {
     return;
   }
@@ -74,23 +70,21 @@ ButtonDebouncer.prototype.onChange = function(buttonState) {
 
   if (this.internalState === STATE_OFF && buttonState === BTN_STATE_ON) {
     this.setInternalState(STATE_TURNING_ON);
-    setTimeout(function() {
+    setTimeout(() => {
       if (this.lastButtonState === BTN_STATE_ON) {
         this.setInternalState(STATE_ON);
       } else {
         this.setInternalState(STATE_OFF);
       }
-    }.bind(this), this.debounceOnDelay);
+    }, this.debounceOnDelay);
   }
 
   if ((this.internalState === STATE_ON || this.internalState === STATE_ON) &&
       buttonState === BTN_STATE_OFF) {
-
     this.clearOffTimer();
 
     this.setInternalState(STATE_TURNING_OFF);
-    this.offTimer = setTimeout(function() {
-
+    this.offTimer = setTimeout(() => {
       this.clearOffTimer();
 
       if (this.lastButtonState === BTN_STATE_OFF) {
@@ -98,10 +92,8 @@ ButtonDebouncer.prototype.onChange = function(buttonState) {
       } else {
         this.setInternalState(STATE_ON);
       }
-
-    }.bind(this), this.debounceOffDelay);
+    }, this.debounceOffDelay);
   }
-
 };
 
 module.exports = ButtonDebouncer;

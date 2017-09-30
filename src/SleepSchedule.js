@@ -1,8 +1,8 @@
 const moment = require('moment');
 
-var idCounter = 0;
+let idCounter = 0;
 
-var SleepSchedule = function(config) {
+const SleepSchedule = function (config) {
   config = config || {};
   this.greenStart = moment.duration(config.greenStartTime);
   this.greenEnd = moment.duration(config.greenEndTime);
@@ -13,30 +13,30 @@ var SleepSchedule = function(config) {
     this.yellowStartTime = moment.duration(config.yellowStartTime);
   }
 
-  this.id = 'sleep_' + idCounter++;
+  this.id = `sleep_${idCounter}`;
+
+  idCounter += 1;
 };
 
-SleepSchedule.prototype.isActive = function() {
+SleepSchedule.prototype.isActive = function () {
   return true;
 };
 
-SleepSchedule.prototype.getEventsBetween = function(start, end) {
+SleepSchedule.prototype.getEventsBetween = function (start, end) {
+  const startDay = start.clone().startOf('day');
+  const endDay = end.clone().add(1, 'day').startOf('day');
 
-  var startDay = start.clone().startOf('day');
-  var endDay = end.clone().add(1, 'day').startOf('day');
+  const extendedDuration = moment.duration(endDay.diff(startDay));
 
-  var extendedDuration = moment.duration(endDay.diff(startDay));
+  const daysNum = extendedDuration.days();
 
-  var daysNum = extendedDuration.days();
-
-  var dayIndex = 0;
-  var events = [];
-  var day;
-  var greenStartTime;
-  var greenEndTime;
-  var yellowStartTime;
-  for (dayIndex = 0; dayIndex < daysNum; dayIndex++) {
-
+  let dayIndex = 0;
+  const events = [];
+  let day;
+  let greenStartTime;
+  let greenEndTime;
+  let yellowStartTime;
+  for (dayIndex = 0; dayIndex < daysNum; dayIndex += 1) {
     day = startDay.clone().add(dayIndex, 'days');
 
     if (this.hasYellow) {
@@ -55,8 +55,8 @@ SleepSchedule.prototype.getEventsBetween = function(start, end) {
         owner: this.id,
         state: {
           light: 'yellow',
-          turnedOn: false
-        }
+          turnedOn: false,
+        },
       });
     }
 
@@ -70,8 +70,8 @@ SleepSchedule.prototype.getEventsBetween = function(start, end) {
         owner: this.id,
         state: {
           light: 'green',
-          turnedOn: false
-        }
+          turnedOn: false,
+        },
       });
     }
   }
@@ -81,7 +81,6 @@ SleepSchedule.prototype.getEventsBetween = function(start, end) {
   // });
 
   return events;
-
 };
 
 module.exports = SleepSchedule;

@@ -1,82 +1,74 @@
-'use strict';
+
 
 const moment = require('moment');
-const EventEmitter = require('events').EventEmitter;
+const { EventEmitter } = require('events');
 const util = require('util');
-const conf = require('./conf');
 
-const StateScheduler = function (argument) {
-
+const StateScheduler = function () {
   this.schedules = [];
 
   this.lookAhead = { hours: 1 };
 
   this.defaultState = {
     light: 'red',
-    turnedOn: false
+    turnedOn: false,
   };
 
   this.lastEvent = {
-    state: {}
+    state: {},
   };
 
   this.isRunning = false;
-
 };
 
 util.inherits(StateScheduler, EventEmitter);
 
-StateScheduler.prototype.addSchedule = function(schedule) {
-
+StateScheduler.prototype.addSchedule = function (schedule) {
   this.schedules.push(schedule);
   this.refresh();
 
   this.emit('schedule-change');
 };
 
-StateScheduler.prototype.removeScheduleById = function(scheduleId) {
-  var length = this.schedules.length;
-  this.schedules = this.schedules.filter(function(schedule) {
-    return (schedule.id !== scheduleId);
-  });
+StateScheduler.prototype.removeScheduleById = function (scheduleId) {
+  const length = this.schedules.length;
+  this.schedules = this.schedules.filter(schedule => (schedule.id !== scheduleId));
 
   if (length !== this.schedules.length) {
     this.refresh();
     this.emit('schedule-change');
     return true;
   }
+  return false;
 };
 
-StateScheduler.prototype.printToConsole = function(hours) {
-
+StateScheduler.prototype.printToConsole = function (hours) {
   hours = hours || 24;
 
   console.log(`---- Schedule for next ${hours} hours at ${moment().format()} ---- `);
 
-  var segments = this.getCurrentAndUpcomingSegments(
-    moment.duration(hours, 'hours')
-  );
+  const segments = this.getCurrentAndUpcomingSegments(moment.duration(hours, 'hours'));
 
-  segments.forEach(function(item) {
+  segments.forEach((item) => {
     console.log(`${item.time.format()} - ${JSON.stringify(item.event.state)} - ${item.event.type}`);
   });
 
-  console.log(`---- End Schedule ---- `);
+  console.log('---- End Schedule ---- ');
 };
 
-StateScheduler.prototype.getSegmentsBetween = function(start, end) {
-  var events = [{
+StateScheduler.prototype.getSegmentsBetween = function (start, end) {
+  let events = [{
     start: start.clone(),
     end: end.clone(),
     priority: -1,
     scheduleIndex: -1,
     type: 'default',
-    state: this.defaultState
+    state: this.defaultState,
   }];
 
-  this.schedules.forEach(function(schedule, index) {
-    var scheduleEvents = schedule.getEventsBetween(start, end);
-    scheduleEvents.forEach(function(event) {
+  this.schedules.forEach((schedule, index) => {
+    const scheduleEvents = schedule.getEventsBetween(start, end);
+    scheduleEvents.forEach((event) => {
       event.scheduleIndex = index;
     });
 
@@ -87,26 +79,23 @@ StateScheduler.prototype.getSegmentsBetween = function(start, end) {
   //   return a.start.valueOf() - b.start.valueOf();
   // });
 
-  var timesMap = Object.create(null);
+  const timesMap = Object.create(null);
 
-  events.forEach(function(event) {
+  events.forEach((event) => {
     timesMap[event.start.valueOf()] = true;
     timesMap[event.end.valueOf()] = true;
   });
 
-  var times = Object.keys(timesMap).sort(function(a, b) {
-    return a - b;
-  });
+  const times = Object.keys(timesMap).sort((a, b) => a - b);
 
-  var segments = times.map(function(time) {
+  let segments = times.map((time) => {
     time = moment(parseInt(time, 10));
 
-    var matchingEvents = events.filter(function(event) {
-      return (event.start.isSameOrBefore(time) && event.end.isAfter(time));
-    });
+    const matchingEvents = events.filter(event =>
+      (event.start.isSameOrBefore(time) && event.end.isAfter(time)));
 
-    matchingEvents.sort(function(a, b) {
-      var sort = b.priority - a.priority;
+    matchingEvents.sort((a, b) => {
+      let sort = b.priority - a.priority;
       if (sort === 0) {
         sort = b.scheduleIndex - a.scheduleIndex;
       }
@@ -119,21 +108,17 @@ StateScheduler.prototype.getSegmentsBetween = function(start, end) {
     });
 
     return {
-      time: time,
+      time,
       event: matchingEvents[0],
-      matchingEvents: matchingEvents
+      matchingEvents,
     };
   });
 
-  segments = segments.filter(function(segment) {
-    return segment.time.isSameOrAfter(start);
-  });
+  segments = segments.filter(segment => segment.time.isSameOrAfter(start));
 
-  segments = segments.filter(function(segment) {
-    return segment.event;
-  });
+  segments = segments.filter(segment => segment.event);
 
-  segments = segments.filter(function(segment, index) {
+  segments = segments.filter((segment, index) => {
     if (index === 0) {
       return true;
     }
@@ -155,7 +140,7 @@ StateScheduler.prototype.getSegmentsBetween = function(start, end) {
 
   // events = this.applyDefaultsToEvents(events);
 
-  //filter out defaults that are older
+  // filter out defaults that are older
   // events = events.filter(function(event) {
   //   return event.at.isBefore(end);
   // });
@@ -163,23 +148,20 @@ StateScheduler.prototype.getSegmentsBetween = function(start, end) {
   // console.log(segments);
 
   return segments;
-
 };
 
-StateScheduler.prototype.getCurrentAndUpcomingSegments = function(duration) {
-
-  var now = moment();
+StateScheduler.prototype.getCurrentAndUpcomingSegments = function (duration) {
+  const now = moment();
 
   if (!duration) {
-
-    let endOfNextDay = now.clone().endOf('day').add(1, 'day');
+    const endOfNextDay = now.clone().endOf('day').add(1, 'day');
     duration = moment.duration(endOfNextDay.diff(now));
   }
 
-  var start = now;
-  var end = now.clone().add(duration);
+  const start = now;
+  const end = now.clone().add(duration);
 
-  var segments = this.getSegmentsBetween(start, end);
+  const segments = this.getSegmentsBetween(start, end);
 
   // segments = segments.filter(function(segment) {
   //   return segment.time.isAfter(now);
@@ -190,22 +172,21 @@ StateScheduler.prototype.getCurrentAndUpcomingSegments = function(duration) {
   // }
 
   return segments;
-
 };
 
-StateScheduler.prototype.run = function() {
+StateScheduler.prototype.run = function () {
   this.isRunning = true;
   this.onInterval();
 };
 
-StateScheduler.prototype.clearTimeout = function() {
+StateScheduler.prototype.clearTimeout = function () {
   if (this.timer !== false) {
     clearTimeout(this.timer);
     this.timer = false;
   }
 };
 
-StateScheduler.prototype.refresh = function() {
+StateScheduler.prototype.refresh = function () {
   if (!this.isRunning) {
     return;
   }
@@ -213,16 +194,15 @@ StateScheduler.prototype.refresh = function() {
   this.onInterval();
 };
 
-StateScheduler.prototype.isStatesEqual = function(a, b) {
+StateScheduler.prototype.isStatesEqual = function (a, b) {
   return (JSON.stringify(a) === JSON.stringify(b));
 };
 
-StateScheduler.prototype.isEventsEqual = function(a, b) {
+StateScheduler.prototype.isEventsEqual = function (a, b) {
   return (JSON.stringify(a) === JSON.stringify(b));
 };
 
-StateScheduler.prototype.executeEvent = function(event) {
-
+StateScheduler.prototype.executeEvent = function (event) {
   if (this.isEventsEqual(event, this.lastEvent)) {
     return;
   }
@@ -234,10 +214,9 @@ StateScheduler.prototype.executeEvent = function(event) {
 
   // must be after execute state
   this.lastEvent = event;
-
 };
 
-StateScheduler.prototype.executeState = function(state) {
+StateScheduler.prototype.executeState = function (state) {
   if (this.isStatesEqual(state, this.lastEvent.state)) {
     return;
   }
@@ -246,22 +225,21 @@ StateScheduler.prototype.executeState = function(state) {
   this.emit('state-change', state);
 };
 
-StateScheduler.prototype.onInterval = function() {
-
+StateScheduler.prototype.onInterval = function () {
   this.removeOldSchedules();
 
-  var now = moment();
-  var start = now.clone();
-  var end = now.clone().add(this.lookAhead);
+  const now = moment();
+  const start = now.clone();
+  const end = now.clone().add(this.lookAhead);
 
-  var segments = this.getSegmentsBetween(start, end);
+  const segments = this.getSegmentsBetween(start, end);
 
   // console.log('got segments: ', segments.length, start.format(), end.format());
 
-  var currentSegment = segments[0];
-  var currentEvent = currentSegment.event;
+  const currentSegment = segments[0];
+  const currentEvent = currentSegment.event;
 
-  var nextCheckTime;
+  let nextCheckTime;
 
   if (segments.length > 1) {
     nextCheckTime = segments[1].time;
@@ -271,7 +249,7 @@ StateScheduler.prototype.onInterval = function() {
 
   this.executeEvent(currentEvent);
 
-  var interval = nextCheckTime.valueOf() - moment().valueOf();
+  const interval = nextCheckTime.valueOf() - moment().valueOf();
 
   if (interval < 0) {
     console.log('**** CRASHING *****');
@@ -280,21 +258,19 @@ StateScheduler.prototype.onInterval = function() {
     process.exit();
   }
 
-  var mins = nextCheckTime.diff(moment(), 'minutes');
+  const mins = nextCheckTime.diff(moment(), 'minutes');
 
   console.log(`Scheduler: next check in ${mins} minutes (${interval}ms)`);
 
   this.clearTimeout();
 
-  this.timer = setTimeout(function() {
+  this.timer = setTimeout(() => {
     this.onInterval();
-  }.bind(this), interval);
+  }, interval);
 };
 
-StateScheduler.prototype.removeOldSchedules = function() {
-  this.schedules = this.schedules.filter(function(schedule) {
-    return schedule.isActive();
-  });
+StateScheduler.prototype.removeOldSchedules = function () {
+  this.schedules = this.schedules.filter(schedule => schedule.isActive());
 };
 
 module.exports = StateScheduler;

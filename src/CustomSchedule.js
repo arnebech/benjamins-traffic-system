@@ -1,9 +1,8 @@
 const moment = require('moment');
 
-var idCounter = 0;
+let idCounter = 0;
 
-const CustomSchedule = function(config) {
-
+const CustomSchedule = function (config) {
   config = config || {};
 
   config.name = config.name || 'custom';
@@ -21,24 +20,21 @@ const CustomSchedule = function(config) {
   this.startTime = moment().add(moment.duration(config.startIn || 0));
   this.endTime = this.startTime.clone().add(moment.duration(config.duration));
 
-  this.id = `${config.name}_${idCounter++}`;
+  this.id = `${config.name}_${idCounter}`;
+
+  idCounter += 1;
 
   // console.log('CREATING CUSTOM CustomSchedule');
   // console.log(this.startTime.format());
   // console.log(this.endTime.format());
-
 };
 
-CustomSchedule.prototype.isActive = function() {
-
+CustomSchedule.prototype.isActive = function () {
   return moment().isSameOrBefore(this.endTime);
-
 };
 
-CustomSchedule.prototype.getEventsBetween = function(start, end) {
-
+CustomSchedule.prototype.getEventsBetween = function (start, end) {
   if (this.startTime.isBefore(end) && this.endTime.isSameOrAfter(start)) {
-
     return [{
       start: this.startTime,
       end: this.endTime,
@@ -47,10 +43,9 @@ CustomSchedule.prototype.getEventsBetween = function(start, end) {
       owner: this.id,
       state: {
         light: this.light,
-        turnedOn: this.turnedOn
-      }
+        turnedOn: this.turnedOn,
+      },
     }];
-
   }
 
   return [];

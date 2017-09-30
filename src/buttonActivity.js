@@ -1,22 +1,20 @@
-const EventEmitter = require('events').EventEmitter;
+const { EventEmitter } = require('events');
 const util = require('util');
 
-const ButtonActivity = function() {
-
+const ButtonActivity = function () {
   this.btnPresses = [];
 
   this.btnPressLimit = 300;
-
 };
 
 util.inherits(ButtonActivity, EventEmitter);
 
-ButtonActivity.prototype.addButtonPress = function(light) {
-  var time = Date.now();
+ButtonActivity.prototype.addButtonPress = function (light) {
+  const time = Date.now();
 
   this.btnPresses.push({
-    time: time,
-    light: light
+    time,
+    light,
   });
 
   if (this.btnPresses.length > this.btnPressLimit) {
@@ -24,25 +22,21 @@ ButtonActivity.prototype.addButtonPress = function(light) {
   }
 
   this.emit('activity');
-
 };
 
-ButtonActivity.prototype.fillSampleData = function() {
-  for (var i = 0; i < 100; i++) {
-    var time = Date.now() - (Math.random() * 1000 * 60 * 60 * 8);
+ButtonActivity.prototype.fillSampleData = function () {
+  for (let i = 0; i < 100; i += 1) {
+    const time = Date.now() - (Math.random() * 1000 * 60 * 60 * 8);
     this.btnPresses.push({
       time: Math.round(time),
-      light: Math.random() > 0.5 ? 'red' : 'green'
+      light: Math.random() > 0.5 ? 'red' : 'green',
     });
   }
 
-  this.btnPresses.sort(function(a, b) {
-    return a.time - b.time;
-  });
-
+  this.btnPresses.sort((a, b) => a.time - b.time);
 };
 
-ButtonActivity.prototype.getActivity = function() {
+ButtonActivity.prototype.getActivity = function () {
   return this.btnPresses;
 };
 

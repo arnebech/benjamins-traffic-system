@@ -5,26 +5,25 @@ const gpioEnabled = conf.get('gpio:enabled');
 
 if (!gpioEnabled) {
   module.exports = {
-    setLightState: function(state) {
+    setLightState(state) {
       console.log(`set light state to ${state}`);
     },
 
-    onButtonPress: function(cb, scope) {
+    onButtonPress(cb, scope) {
+      const debouncer = new ButtonDebouncer();
 
-      var debouncer = new ButtonDebouncer();
-
-      debouncer.on('state-change', function(state) {
+      debouncer.on('state-change', (state) => {
         if (state) {
           cb.apply(scope);
         }
       });
 
       process.stdin.on('data', (chunk) => {
-        var string = chunk.toString();
+        const string = chunk.toString();
 
         if (string.match('toggle')) {
           debouncer.onChange(true);
-          setTimeout(function() {
+          setTimeout(() => {
             debouncer.onChange(false);
           }, 100);
         }
@@ -39,12 +38,9 @@ if (!gpioEnabled) {
       //     debouncer.onChange(false);
       //   }, 100);
       // }, 3000);
-
-    }
+    },
   };
-
 } else {
-
   const rpio = require('rpio');
 
   /*
@@ -79,32 +75,31 @@ if (!gpioEnabled) {
 
   rpio.open(BTN_INPUT_PIN, rpio.INPUT, rpio.PULL_UP);
 
-  var gpio = {
+  const gpio = {
     stateToPin: {
       red: RED_PIN,
       yellow: YELLOW_PIN,
       green: GREEN_PIN,
-      buzzer: BUZZER_PIN
+      buzzer: BUZZER_PIN,
     },
-    init: function() {
-
-      var debouncer = new ButtonDebouncer();
+    init() {
+      const debouncer = new ButtonDebouncer();
 
       this.debouncer = debouncer;
 
-      rpio.poll(BTN_INPUT_PIN, function() {
+      rpio.poll(BTN_INPUT_PIN, () => {
         this.debouncer.onChange(!rpio.read(BTN_INPUT_PIN));
-      }.bind(this));
+      });
     },
 
-    setLightState: function(state) {
+    setLightState(state) {
       rpio.write(RED_PIN, rpio.LOW);
       rpio.write(YELLOW_PIN, rpio.LOW);
       rpio.write(GREEN_PIN, rpio.LOW);
       rpio.write(BUZZER_PIN, rpio.LOW);
       rpio.write(BTN_LIGHT_PIN, rpio.LOW);
 
-      var pin = this.stateToPin[state];
+      const pin = this.stateToPin[state];
       if (pin === undefined) {
         return;
       }
@@ -112,18 +107,16 @@ if (!gpioEnabled) {
       console.log(`GPIO: turn on: ${state}`);
 
       rpio.write(pin, rpio.HIGH);
-
     },
 
-    onButtonPress: function(cb, scope) {
-
-      this.debouncer.on('state-change', function(state) {
+    onButtonPress(cb, scope) {
+      this.debouncer.on('state-change', (state) => {
         if (state) {
           console.log('Button press');
           cb.apply(scope);
         }
       });
-    }
+    },
   };
 
   gpio.init();
